@@ -123,7 +123,7 @@ class DarkEnergyPPF(DarkEnergyEqnOfState):
 
 
 @fortran_class
-class DarkEnergyThawingPPF(DarkEnergyEqnOfState):
+class DarkEnergyThawingPPF(DarkEnergyPPF):
     """
     Like above, but w(a) = max(-1, w0 + wa*(1-a)).
     """
