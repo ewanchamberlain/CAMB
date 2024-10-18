@@ -123,6 +123,16 @@ class DarkEnergyPPF(DarkEnergyEqnOfState):
 
 
 @fortran_class
+class DarkEnergyThawingPPF(DarkEnergyEqnOfState):
+    """
+    Like above, but w(a) = max(-1, w0 + wa*(1-a)).
+    """
+    # cannot declare c_Gamma_ppf directly here as have not defined all fields in DarkEnergyEqnOfState (TCubicSpline)
+    _fortran_class_module_ = 'DarkEnergyThawingPPF'
+    _fortran_class_name_ = 'TDarkEnergyThawingPPF'
+
+
+@fortran_class
 class AxionEffectiveFluid(DarkEnergyModel):
     """
     Example implementation of a specific (early) dark energy fluid model
