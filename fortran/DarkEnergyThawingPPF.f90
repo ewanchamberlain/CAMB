@@ -14,7 +14,7 @@ module DarkEnergyThawingPPF
         procedure, nopass :: PythonClass => TDarkEnergyThawingPPF_PythonClass
         procedure :: Init => TDarkEnergyThawingPPF_Init
         procedure :: TDarkEnergyEqnOfState_w_de => TDarkEnergyThawingPPF_w_de
-        procudure :: TDarkEnergyPPF_SelfPointer => TDarkEnergyThawingPPF_SelfPointer
+        procudure, nopass :: SelfPointer => TDarkEnergyThawingPPF_SelfPointer
     end type TDarkEnergyThawingPPF
 
     public TDarkEnergyThawingPPF
@@ -32,7 +32,7 @@ module DarkEnergyThawingPPF
 
     end subroutine TDarkEnergyThawingPPF_ReadParams
 
-    subroutine TDarkEnergyPPF_SelfPointer(cptr,P)
+    subroutine TDarkEnergyThawingPPF_SelfPointer(cptr,P)
         use iso_c_binding
         Type(c_ptr) :: cptr
         Type (TDarkEnergyPPF), pointer :: PType
@@ -41,7 +41,7 @@ module DarkEnergyThawingPPF
         call c_f_pointer(cptr, PType)
         P => PType
 
-    end subroutine TDarkEnergyPPF_SelfPointer
+    end subroutine TDarkEnergyThawingPPF_SelfPointer
 
     function TDarkEnergyThawingPPF_PythonClass()
         character(LEN=:), allocatable :: TDarkEnergyThawingPPF_PythonClass
