@@ -58,12 +58,13 @@ module DarkEnergyThawingPPF
     
     function TDarkEnergyThawingPPF_grho_de(this, a) result(grho_de) !relative density (8 pi G a^4 rho_de /grhov)
     class(TDarkEnergyThawingPPF) :: this
-    real(dl) :: grho_de, al, fint
+    real(dl) :: grho_de, al, fint, a0
     real(dl), intent(IN) :: a
 
     if(.not. this%use_tabulated_w) then
-        if (this%w_lam + this%wa * (1._dl - a) < -1) then
-            grho_de = a ** 4._dl
+        a0 = (1._dl + this%w_lam + this%wa)/this%wa
+        if ((this%w_lam + this%wa * (1._dl - a)) < -1) then
+            grho_de = a**4 * a0 ** (-3._dl - 3. * this%w_lam - 3. * this%wa) * exp(-3. * this%wa * (1._dl - a0))
         else
             grho_de = a ** (1._dl - 3. * this%w_lam - 3. * this%wa)
             if (this%wa/=0) grho_de=grho_de*exp(-3. * this%wa * (1._dl - a))
