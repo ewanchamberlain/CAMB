@@ -2,7 +2,6 @@ module DarkEnergyThawingPPF
     use DarkEnergyPPF
     use DarkEnergyInterface
     use classes
-    use DarkEnergyInterface
     implicit none
 
     private
@@ -62,7 +61,7 @@ module DarkEnergyThawingPPF
     real(dl), intent(IN) :: a
 
     if(.not. this%use_tabulated_w) then
-        a0 = (1._dl + this%w_lam + this%wa)/this%wa
+        a0 = (1._dl + this%w_lam + this%wa)/this%wa ! scale factor at which w=-1
         if ((this%w_lam + this%wa * (1._dl - a)) < -1) then
             grho_de = a**4 * a0 ** (-3._dl - 3. * this%w_lam - 3. * this%wa) * exp(-3. * this%wa * (1._dl - a0))
         else
