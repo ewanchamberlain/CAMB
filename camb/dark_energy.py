@@ -231,4 +231,4 @@ class EarlyQuintessence(Quintessence):
 
 
 # short names for models that support w/wa
-F2003Class._class_names.update({'fluid': DarkEnergyFluid, 'ppf': DarkEnergyPPF})
+F2003Class._class_names.update({'fluid': DarkEnergyFluid, 'ppf': DarkEnergyPPF, 'thawingppf': DarkEnergyThawingPPF})
