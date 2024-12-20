@@ -60,13 +60,30 @@ module DarkEnergyThawingPPF
     real(dl) :: grho_de, al, fint, a0
     real(dl), intent(IN) :: a
 
+    ! TODO: implement case where DE leaves CPL and enters Lambda
     if(.not. this%use_tabulated_w) then
         a0 = (1._dl + this%w_lam + this%wa)/this%wa ! scale factor at which w=-1
-        if ((this%w_lam + this%wa * (1._dl - a)) < -1) then
-            grho_de = a**4 * a0 ** (-3._dl - 3. * this%w_lam - 3. * this%wa) * exp(-3. * this%wa * (1._dl - a0))
+        if ((a0 >= 1) .or. (a0 < 0)) then
+            if ((this%w_lam + this%wa) < -1) then
+                grho_de = a**4
+            else
+                grho_de = a**4 * (a) ** (-3._dl - 3. * this%w_lam - 3 * this%wa)
+                if (this%w_lam/=0) grho_de=grho_de*exp(-3. * this%wa * (1._dl - a))
+            endif
+        else if ((this%w_lam + this%wa) <= -1) then
+            if (a <= a0) then
+                grho_de = a**4 * a0 ** (-3._dl - 3. * this%w_lam - 3. * this%wa) * exp(-3. * this%wa * (1._dl - a0))
+            else
+                grho_de = a ** (1._dl - 3. * this%w_lam - 3. * this%wa)
+                if (this%wa/=0) grho_de=grho_de*exp(-3. * this%wa * (1._dl - a))
+            endif
         else
-            grho_de = a ** (1._dl - 3. * this%w_lam - 3. * this%wa)
-            if (this%wa/=0) grho_de=grho_de*exp(-3. * this%wa * (1._dl - a))
+            if (a <= a0) then
+                grho_de = a**4 * (a/a0) ** (-3._dl - 3. * this%w_lam - 3. * this%wa)
+                if (this%wa/=0) grho_de=grho_de*exp(-3. * this%wa * (a0 - a))
+            else
+                grho_de = a**4
+            endif
         endif
     else
         if(a == 0.d0)then
