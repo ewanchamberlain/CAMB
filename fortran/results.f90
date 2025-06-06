@@ -274,6 +274,7 @@
     procedure :: binary_search
     procedure, nopass :: PythonClass => CAMBdata_PythonClass
     procedure, nopass :: SelfPointer => CAMBdata_SelfPointer
+    final :: CAMBdata_Destructor
     end type CAMBdata
 
     interface
@@ -584,6 +585,11 @@
     end if
 
     end subroutine CAMBdata_SetParams
+
+    subroutine CAMBdata_Destructor(this)
+        type(CAMBdata) :: this
+        call CAMBdata_Free(this)
+        end subroutine CAMBdata_Destructor
 
     subroutine CAMBdata_Free(this)
     class(CAMBdata) :: this
